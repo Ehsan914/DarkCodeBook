@@ -29,9 +29,9 @@ const int mod = 1e9 + 7;
 bool is_prime[N];
 //MAXIMUM EFFORT
 
-#define mx 500
+#define mx 100000
 #define K 21
-ll Spt[mx][K];
+ll Spt[K][mx];
 
 template<typename T_vector>
 void output_vector(const T_vector &v, bool add_one = false, int start = -1, int end = -1) {
