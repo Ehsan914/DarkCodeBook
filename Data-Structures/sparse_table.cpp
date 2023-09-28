@@ -26,12 +26,14 @@ typedef unsigned long long int llu;
 const int N = 1e6 + 10000;
 const int mod = 1e9 + 7;
 //set<ll> st;
-bool is_prime[N];
+//bool is_prime[N];
 //MAXIMUM EFFORT
 
-#define mx 100000
-#define K 21
+#define mx 100100
+#define K 23
 ll Spt[K][mx];
+
+ll _ceil(ll n, ll m) {if (n % m) return (n / m) + 1; else return (n / m);}
 
 template<typename T_vector>
 void output_vector(const T_vector &v, bool add_one = false, int start = -1, int end = -1) {
@@ -43,23 +45,21 @@ void output_vector(const T_vector &v, bool add_one = false, int start = -1, int 
 }
 
 void build(ll v[], int n) {
-
-	for (int i = 0; i < n; i++) Spt[0][i] = v[i];
-
-	for (int i = 1; i <= K; i++) {
-		for (int j = 0; j < n; j++) {
-			if (j + (1 << i - 1) >= n) break;
-			Spt[i][j] = min(Spt[i - 1][j], Spt[i - 1][j + (1 << (i - 1))]);
-		}
-	}
+    for (int i = 1; i <= n; i++) Spt[0][i] = v[i];
+    for (int i = 1; i < K; i++) {
+        for (int j = 1; j <= n && j + (1 << i) - 1 <= n; j++) {
+            Spt[i][j] = gcd(Spt[i - 1][j], Spt[i - 1][j + (1 << (i - 1))]);
+        }
+    }
 }
 
 ll query(int l, int r) {
-	int p = log2(r - l + 1);
-	return min(Spt[p][l], Spt[p][r + 1 - (1 << p)]);
+    int p = log2(r - l + 1);
+    return gcd(Spt[p][l], Spt[p][r + 1 - (1 << p)]);
 }
 
 int main() {
+	fastio;
 	int n; cin >> n;
 	ll ar[n];
 	for (int i = 0; i < n; i++) {
